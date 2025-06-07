@@ -1,11 +1,12 @@
 package com.marysql.last_friend.model;
 
 public class Message {
+
     private String texto;
 
-    public Mensagem() {}
+    public Message() {} // nome igual ao da classe
 
-    public Mensagem(String texto) {
+    public Message(String texto) {
         this.texto = texto;
     }
 
