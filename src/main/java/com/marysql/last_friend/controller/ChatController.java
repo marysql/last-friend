@@ -1,20 +1,27 @@
 package com.marysql.last_friend.controller;
 
-import com.marysql.last_friend.model.Message;
+
 import com.marysql.last_friend.service.ChatService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
-@RequestMapping("/api/chat")
+@RequestMapping("/chat")
 public class ChatController {
 
-    @Autowired
-    private ChatService chatService;
+    private final ChatService chatService;
 
-    @PostMapping
-    public String conversar(@RequestBody Message mensagem) {
-        return chatService.gerarResposta(mensagem.getTexto());
+    public ChatController(ChatService chatService) {
+        this.chatService = chatService;
     }
 
+    @PostMapping("/perguntar")
+    public ResponseEntity<String> perguntar(@RequestBody Map<String, String> body) {
+        String pergunta = body.get("texto");
+        String resposta = chatService.gerarResposta(pergunta);
+        return ResponseEntity.ok(resposta);
+    }
 }

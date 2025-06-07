@@ -1,20 +1,19 @@
 package com.marysql.last_friend.service;
 
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.*;
-
+import java.util.Map;
 
 @Service
 public class ChatService {
 
-    private final String apiUrl = "https://api-inference.huggingface.co/models/mistralai/Mixtral-8x7B-Instruct-v0.1";
-    private static final String API_TOKEN = System.getenv("HUGGINGFACE_API_TOKEN");
+    @Value("${cohere.api.key}")
+    private String apiKey;
 
+    private final String apiUrl = "https://api.cohere.ai/v1/generate";
 
     public String gerarResposta(String pergunta) {
         try {
@@ -22,38 +21,33 @@ public class ChatService {
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.set("Authorization", "Bearer " + apiToken);
+            headers.set("Authorization", "Bearer " + apiKey);
 
-            Map<String, Object> requestBody = Map.of("inputs", pergunta);
+            Map<String, Object> requestBody = Map.of(
+                    "model", "command-r-plus",  // Modelo mais robusto e gratuito para testes
+                    "prompt", pergunta,
+                    "max_tokens", 100,
+                    "temperature", 0.7
+            );
 
             HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
 
-            ResponseEntity<List> response = restTemplate.exchange(
-                    apiUrl, HttpMethod.POST, entity, List.class
+            ResponseEntity<Map> response = restTemplate.exchange(
+                    apiUrl, HttpMethod.POST, entity, Map.class
             );
 
-            System.out.println("Resposta da Hugging Face: " + response.getBody());
-
-            List<Map<String, String>> result = response.getBody();
-            if (result != null && !result.isEmpty()) {
-                return result.get(0).get("generated_text");
-            } else {
-                return "Desculpe, não consegui gerar uma resposta agora.";
+            Map<String, Object> responseBody = response.getBody();
+            if (responseBody != null && responseBody.containsKey("generations")) {
+                var generations = (java.util.List<Map<String, String>>) responseBody.get("generations");
+                if (!generations.isEmpty()) {
+                    return generations.get(0).get("text").trim();
+                }
             }
+
+            return "Desculpe, não consegui gerar uma resposta agora.";
         } catch (Exception e) {
-            e.printStackTrace(); // Mostra o erro no console
+            e.printStackTrace();
             return "Erro ao processar a resposta da IA: " + e.getMessage();
         }
     }
-
-    @Bean
-    public RestTemplate restTemplate() {
-        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
-        factory.setConnectTimeout(10000); // 10 segundos
-        factory.setReadTimeout(30000);    // 30 segundos
-        return new RestTemplate(factory);
-    }
-
 }
-
-

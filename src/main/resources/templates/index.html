@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Last Friend - Seu Amigo Virtual</title>
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1><i class="fas fa-comment-dots me-2"></i>Last Friend</h1>
+            <p>Seu amigo virtual para todas as horas</p>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot-message">
+                Olá! Eu sou seu amigo virtual. Estou aqui para ajudar no que precisar. 😊<br>
+                Pode me contar o que está acontecendo...
+                <span class="message-time">agora mesmo</span>
+            </div>
+        </div>
+        <div class="typing-indicator" id="typing-indicator">
+            <i class="fas fa-circle-notch fa-spin me-2"></i>Digitando...
+        </div>
+        <div class="input-area">
+            <form id="message-form" class="d-flex align-items-center">
+                <input type="text" id="user-input" class="form-control" placeholder="Digite sua mensagem..." autocomplete="off" required aria-label="Sua mensagem">
+                <button type="submit" class="btn-send" id="send-button" aria-label="Enviar mensagem">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/chat.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
