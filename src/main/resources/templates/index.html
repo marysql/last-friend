@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" data-theme="light">
+<html xmlns:th="http://www.thymeleaf.org" data-theme="light" style="--logo-max-width: 120px; --logo-max-height: 40px;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,11 +15,70 @@
     
     <!-- CSS -->
     <link href="/css/style.css" rel="stylesheet">
+    <style>
+        /* Estilo forçado para o logo */
+        #main-logo {
+            height: 50px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 5px 0 !important;
+            margin: 0 !important;
+        }
+        
+        #main-logo .logo {
+            max-width: 120px !important;
+            max-height: 40px !important;
+            width: auto !important;
+            height: auto !important;
+            object-fit: contain !important;
+            display: block !important;
+            margin: 0 auto !important;
+            padding: 0 !important;
+            position: relative !important;
+            z-index: 1 !important;
+        }
+        
+        /* Sobrescreve qualquer estilo */
+        img[src*="title.png"],
+        img[th\:src*="title.png"] {
+            max-width: 120px !important;
+            max-height: 40px !important;
+            width: auto !important;
+            height: auto !important;
+            object-fit: contain !important;
+        }
+        
+        /* Garante que nenhum outro estilo sobrescreva */
+        .chat-header h1,
+        .chat-header h1 *,
+        .chat-header .logo-container,
+        .chat-header .logo-container * {
+            max-width: 120px !important;
+            max-height: 40px !important;
+            width: auto !important;
+            height: auto !important;
+        }
+    </style>
 </head>
 <body>
     <div class="chat-container">
         <header class="chat-header">
-            <h1>Last Friend</h1>
+            <div id="main-logo" class="logo-container">
+                <img th:src="@{/title.png}" 
+                     alt="Last Friend" 
+                     class="logo" 
+                     style="
+                         max-width: 350px !important;
+                         max-height: 80px !important;
+                         width: auto !important;
+                         height: auto !important;
+                         object-fit: contain !important;
+                         display: block !important;
+                         margin: 0 auto !important;
+                         padding: 0 !important;
+                     ">
+            </div>
             <button id="theme-toggle" class="theme-toggle" aria-label="Alternar tema">
                 <i class="fas fa-moon"></i>
             </button>

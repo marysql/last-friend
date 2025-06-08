@@ -11,6 +11,57 @@
     --radius: 0.5rem;
 }
 
+/* Estilo para o container do logo */
+#main-logo {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 70px !important; /* Aumentando a altura para acomodar a imagem */
+    margin: 0 auto !important;
+    padding: 5px 0 !important;
+    width: 100% !important;
+    max-width: 300px !important; /* Largura máxima para o container */
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+}
+
+/* Estilo para a imagem do logo */
+#main-logo .logo {
+    max-height: 50px !important; /* Altura máxima reduzida */
+    max-width: 200px !important; /* Largura máxima reduzida */
+    width: auto !important;
+    height: auto !important;
+    object-fit: contain !important;
+    display: block !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    opacity: 0.9;
+}
+
+/* Garante que nenhum outro estilo sobrescreva */
+.chat-header h1 {
+    display: none !important;
+}
+
+/* Estilo específico para a imagem do logo */
+#main-logo img.logo {
+    max-width: 120px !important;
+    height: auto !important;
+    width: auto !important;
+    max-height: 40px !important;
+    object-fit: contain !important;
+}
+
+/* Sobrescreve qualquer estilo inline */
+img[src*="title.png"],
+img[th\:src*="title.png"] {
+    max-width: 120px !important;
+    height: auto !important;
+    width: auto !important;
+    max-height: 40px !important;
+    object-fit: contain !important;
+}
+
 [data-theme="dark"] {
     --primary: #6366F1;
     --primary-hover: #4F46E5;
@@ -65,16 +116,52 @@ body {
     border: 1px solid var(--border);
 }
 .chat-header {
-    padding: 1rem 1.5rem;
+    padding: 0.5rem 1rem;
     border-bottom: 1px solid var(--border);
     background: var(--bg);
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     position: sticky;
     top: 0;
     z-index: 10;
     box-shadow: var(--shadow-sm);
+    height: 80px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* Estilos específicos para o container do logo */
+.chat-header #main-logo {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 0;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* Estilos específicos para a imagem do logo */
+.chat-header #main-logo .logo {
+    max-height: 80px !important;
+    max-width: 350px !important;
+    width: auto !important;
+    height: auto !important;
+    object-fit: contain !important;
+}
+
+/* Regra com alta especificidade para forçar o tamanho */
+html body .chat-container .chat-header #main-logo img.logo {
+    max-height: 40px !important;
+    max-width: 180px !important;
+    width: auto !important;
+    height: auto !important;
+    object-fit: contain !important;
+    display: block !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
 }
 .chat-header h1 {
     margin: 0;
